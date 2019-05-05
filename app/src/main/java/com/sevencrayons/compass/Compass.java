@@ -7,7 +7,6 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
 public class Compass implements SensorEventListener {
-    private static final String TAG = "Compass";
 
     public interface CompassListener {
         void onNewAzimuth(float azimuth);
@@ -52,29 +51,25 @@ public class Compass implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        final float alpha = 0.97f;
+        final float alpha = 0.99f;
 
         synchronized (this) {
             if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
 
-                mGravity[0] = alpha * mGravity[0] + (1 - alpha)
-                        * event.values[0];
-                mGravity[1] = alpha * mGravity[1] + (1 - alpha)
-                        * event.values[1];
-                mGravity[2] = alpha * mGravity[2] + (1 - alpha)
-                        * event.values[2];
+                for (int i = 0; i < 3; i++) {
+                    mGravity[i] = alpha * mGravity[i] + (1 - alpha)
+                            * event.values[i];
+                }
 
             }
 
             if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
 
 
-                mGeomagnetic[0] = alpha * mGeomagnetic[0] + (1 - alpha)
-                        * event.values[0];
-                mGeomagnetic[1] = alpha * mGeomagnetic[1] + (1 - alpha)
-                        * event.values[1];
-                mGeomagnetic[2] = alpha * mGeomagnetic[2] + (1 - alpha)
-                        * event.values[2];
+                for (int i = 0; i < 3; i++) {
+                    mGeomagnetic[i] = alpha * mGeomagnetic[i] + (1 - alpha)
+                            * event.values[i];
+                }
 
             }
 
@@ -85,7 +80,6 @@ public class Compass implements SensorEventListener {
                 SensorManager.getOrientation(R, orientation);
                 azimuth = (float) Math.toDegrees(orientation[0]); // orientation
                 azimuth = (azimuth +360) % 360;
-                System.out.println(azimuth);
                 if (listener != null) {
                     listener.onNewAzimuth(azimuth);
                 }

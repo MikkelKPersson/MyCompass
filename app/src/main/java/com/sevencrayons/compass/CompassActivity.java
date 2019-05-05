@@ -1,6 +1,5 @@
 package com.sevencrayons.compass;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -15,13 +14,13 @@ public class CompassActivity extends AppCompatActivity {
     private static final String TAG = "CompassActivity";
 
     private Compass compass;
+    private SOTWFormatter sotwFormatter;
     private ImageView arrowView;
     private ImageView roseView;
     private TextView sotwLabelDegrees;
     private TextView sotwLabelDirection;// SOTW is for "side of the world"
 
     private float currentAzimuth;
-    private SOTWFormatter sotwFormatter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,17 +70,6 @@ public class CompassActivity extends AppCompatActivity {
     }
 
     private void adjustRose(float azimuth) {
-//        Log.d(TAG, "will set rotation from " + currentAzimuth + " to "
-//                + azimuth);
-
-//        float difference = Math.abs(currentAzimuth - azimuth);
-//        float maxPivotValue = 0.5f;
-//        float pivotValue;
-//                pivotValue=  difference;
-//        if (difference > maxPivotValue) {
-//            pivotValue = maxPivotValue;
-//        }
-//        System.out.println(difference);
 
         Animation rotateRose = new RotateAnimation(-currentAzimuth, -azimuth,
                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
@@ -92,15 +80,11 @@ public class CompassActivity extends AppCompatActivity {
         rotateRose.setRepeatCount(0);
         rotateRose.setFillAfter(true);
 
-        //System.out.println(difference);
-//        if(difference > 0.05) {
-         roseView.startAnimation(rotateRose);
-//        }
+
+        roseView.startAnimation(rotateRose);
         currentAzimuth = azimuth;
 
 
-
-       // System.out.println(-azimuth);
     }
 
     private void adjustSotwLabel(float azimuth) {

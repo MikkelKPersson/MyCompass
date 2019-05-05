@@ -24,7 +24,6 @@ public class SOTWFormatter {
 
     public String formatDegree(float azimuth) {
         int iAzimuth = (int)azimuth;
-        int index = findClosestIndex(iAzimuth);
         return " " + iAzimuth + "°";
     }
 
